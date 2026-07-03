@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Curonex - System Administrator Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin_portal.css">
+</head>
+<body>
+
+<div class="header">
+  <div class="header-logo">
+    <div class="logo-icon">➕</div>
+    <div class="logo-text">
+      <h1>Curonex</h1>
+      <p>Affordable Healthcare Access</p>
+    </div>
+  </div>
+
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="globalSearch" placeholder="Search users, appointments, hospitals, doctors, pharmacies...">
+    <span class="search-kbd">Ctrl + K</span>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+
+  <div class="header-right">
+    <div class="icon-btn-wrap" id="notifWrap">
+      <span class="icon-btn">🔔</span>
+      <span class="icon-badge" id="notifBadge">5</span>
+      <div class="dropdown-panel notif-panel" id="notifPanel">
+        <div class="dropdown-panel-header">
+          <span>Notifications</span>
+          <button class="mark-read-btn" id="markAllReadBtn">Mark all read</button>
+        </div>
+        <div id="notifList"></div>
+      </div>
+    </div>
+
+    <div class="icon-btn-wrap" id="helpWrap">
+      <span class="icon-btn">❓</span>
+      <div class="dropdown-panel help-panel" id="helpPanel">
+        <div class="dropdown-panel-header"><span>Help &amp; Resources</span></div>
+        <a href="#" class="dropdown-item">📘 Admin Documentation</a>
+        <a href="#" class="dropdown-item">🎥 Video Tutorials</a>
+        <a href="#" class="dropdown-item">🎧 Contact Support Center</a>
+        <a href="#" class="dropdown-item">⌨️ Keyboard Shortcuts</a>
+      </div>
+    </div>
+
+    <div class="icon-btn-wrap" id="settingsWrap">
+      <span class="icon-btn">⚙️</span>
+    </div>
+
+    <div class="user-wrap" id="userWrap">
+      <img class="avatar" src="https://i.pravatar.cc/150?img=13" alt="Kaushik T">
+      <div class="user-text">
+        <span class="username">Kaushik T</span>
+        <span class="user-role">System Administrator</span>
+      </div>
+      <span class="chevron">▾</span>
+      <div class="dropdown-panel user-panel" id="userPanel">
+        <a href="#" class="dropdown-item">👤 My Profile</a>
+        <a href="#" class="dropdown-item">⚙️ Account Settings</a>
+        <a href="#" class="dropdown-item">🔑 Security</a>
+        <div class="dropdown-divider"></div>
+        <a href="#" class="dropdown-item logout" id="logoutBtn">🚪 Logout</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <p class="side-section-label">System Admin</p>
+    <div class="side-item active" data-page="dashboard"><span class="side-icon">🏠</span> Dashboard</div>
+    <div class="side-item" data-page="users"><span class="side-icon">👥</span> User Management</div>
+
+    <p class="side-section-label">Resource Inventory <span class="section-hint">(Approvals)</span></p>
+    <div class="side-item" data-page="hospitals"><span class="side-icon">🏥</span> Hospitals <span class="side-count" data-count-for="hospitals"></span></div>
+    <div class="side-item" data-page="doctors"><span class="side-icon">👨‍⚕️</span> Doctors <span class="side-count" data-count-for="doctors"></span></div>
+    <div class="side-item" data-page="pharmacies"><span class="side-icon">💊</span> Pharmacies <span class="side-count" data-count-for="pharmacies"></span></div>
+    <div class="side-item" data-page="ambulance"><span class="side-icon">🚑</span> Ambulance Operator <span class="side-count" data-count-for="ambulance"></span></div>
+    <div class="side-item" data-page="inventory"><span class="side-icon">📦</span> Resource Inventory <span class="side-count" data-count-for="inventory"></span></div>
+
+    <div class="side-divider"></div>
+    <div class="side-item" data-page="reports"><span class="side-icon">📊</span> Reports &amp; Analytics</div>
+    <div class="side-item" data-page="settings"><span class="side-icon">⚙️</span> System Settings</div>
+    <div class="side-item" data-page="notifications"><span class="side-icon">🔔</span> Notifications</div>
+    <div class="side-item" data-page="audit"><span class="side-icon">📋</span> Audit Logs</div>
+    <div class="side-item" data-page="support"><span class="side-icon">🎧</span> Support &amp; Tickets</div>
+    <div class="side-item" data-page="backup"><span class="side-icon">☁️</span> Backup &amp; Restore</div>
+    <div class="side-item" data-page="health"><span class="side-icon">💚</span> System Health</div>
+
+    <div class="sidebar-support">
+      <div class="support-icon">🎧</div>
+      <h4>Need Help?</h4>
+      <a href="#" class="contact-support-link">Contact Support Center</a>
+      <p class="support-sub">We are here to help you 24/7</p>
+    </div>
+  </div>
+
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <!-- MAIN -->
+  <div class="main">
+    <button class="mobile-menu-btn" id="mobileMenuBtn">☰ Menu</button>
+
+    <div id="pageContent">
+      <!-- DASHBOARD PAGE -->
+      <div class="page active" data-page-content="dashboard" id="dashboardPage">
+
+        <div class="dash-top">
+          <div>
+            <h2>Welcome back, Admin! 👋</h2>
+            <p class="dash-sub">Here's what's happening in the Curonex system today.</p>
+          </div>
+          <div class="date-range-wrap" id="dateRangeWrap">
+            <button class="date-range-btn" id="dateRangeBtn">
+              📅 <span id="dateRangeLabel">May 12, 2025 - May 18, 2025</span> ▾
+            </button>
+            <div class="date-range-panel" id="dateRangePanel">
+              <div class="date-range-option" data-range="7">Last 7 Days</div>
+              <div class="date-range-option" data-range="30">Last 30 Days</div>
+              <div class="date-range-option" data-range="90">Last 90 Days</div>
+              <div class="date-range-option" data-range="365">This Year</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stats-row" id="statsRow"></div>
+
+        <div class="two-col">
+          <div class="panel chart-panel">
+            <div class="panel-header">
+              <h3>System Overview</h3>
+              <div class="chart-range-wrap" id="chartRangeWrap">
+                <button class="chart-range-btn" id="chartRangeBtn"><span id="chartRangeLabel">Last 7 Days</span> ▾</button>
+                <div class="chart-range-panel" id="chartRangePanel">
+                  <div class="chart-range-option" data-days="7">Last 7 Days</div>
+                  <div class="chart-range-option" data-days="14">Last 14 Days</div>
+                  <div class="chart-range-option" data-days="30">Last 30 Days</div>
+                </div>
+              </div>
+            </div>
+            <div class="chart-legend">
+              <span><i class="legend-dot" style="background:#1976D2"></i> Appointments</span>
+              <span><i class="legend-dot" style="background:#2E7D32"></i> Users</span>
+              <span><i class="legend-dot" style="background:#7c3aed"></i> Treatments</span>
+            </div>
+            <div class="chart-wrap" id="chartWrap">
+              <svg id="chartSvg" viewBox="0 0 720 260" preserveAspectRatio="none"></svg>
+              <div class="chart-tooltip" id="chartTooltip"></div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h3>Quick Actions</h3>
+            <div class="quick-actions-grid" id="quickActionsGrid"></div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="panel">
+            <div class="panel-header">
+              <h3>Recent Registrations</h3>
+              <button class="view-all-btn" id="viewAllRegBtn">View All</button>
+            </div>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead><tr><th>Name</th><th>Role</th><th>Registered On</th><th>Status</th></tr></thead>
+                <tbody id="regTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <h3>System Health</h3>
+              <a href="#" class="view-all-btn" id="viewHealthDetailsBtn">View Details</a>
+            </div>
+            <div id="systemHealthList"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DYNAMIC MODULE PAGE (every other sidebar item renders here) -->
+      <div class="page" data-page-content="module" id="modulePage"></div>
+    </div>
+
+    <div class="footer">
+      <span>© 2026 Curonex Healthcare System. All rights reserved.</span>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Support</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- QUICK ACTION MODAL -->
+<div class="modal-overlay" id="quickActionOverlay">
+  <div class="modal-box">
+    <button class="modal-close" id="closeQuickActionModal">✕</button>
+    <div class="modal-icon" id="quickActionIcon">➕</div>
+    <h3 id="quickActionTitle">Add New User</h3>
+    <p class="modal-sub" id="quickActionSub">Fill in the details below.</p>
+    <form id="quickActionForm">
+      <div class="form-field">
+        <label id="qaField1Label">Full Name</label>
+        <input type="text" id="qaField1" placeholder="Enter full name">
+      </div>
+      <div class="form-field">
+        <label id="qaField2Label">Email Address</label>
+        <input type="email" id="qaField2" placeholder="Enter email address">
+      </div>
+      <span class="error-msg" id="qaError"></span>
+      <button type="submit" class="btn-primary" id="qaSubmitBtn">Submit</button>
+    </form>
+  </div>
+</div>
+
+<!-- GENERIC DETAIL / VERIFY MODAL -->
+<div class="modal-overlay" id="detailOverlay">
+  <div class="modal-box">
+    <button class="modal-close" id="closeDetailModal">✕</button>
+    <div class="modal-icon" id="detailIcon">🏥</div>
+    <h3 id="detailName">-</h3>
+    <p class="modal-sub" id="detailRole">-</p>
+    <div class="detail-grid" id="detailGrid"></div>
+    <div class="modal-actions-row">
+      <button class="btn-secondary" id="detailRejectBtn">Reject</button>
+      <button class="btn-primary" id="detailApproveBtn">Verify &amp; Approve</button>
+    </div>
+  </div>
+</div>
+
+<!-- GENERIC CONFIRM MODAL -->
+<div class="modal-overlay" id="confirmOverlay">
+  <div class="modal-box">
+    <button class="modal-close" id="closeConfirmModal">✕</button>
+    <div class="modal-icon" id="confirmIcon">⚠️</div>
+    <h3 id="confirmTitle">Are you sure?</h3>
+    <p class="modal-sub" id="confirmSub">This action cannot be undone.</p>
+    <div class="modal-actions-row">
+      <button class="btn-secondary" id="confirmCancelBtn">Cancel</button>
+      <button class="btn-primary" id="confirmOkBtn">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="admin_portal.js"></script>
+</body>
+</html>
