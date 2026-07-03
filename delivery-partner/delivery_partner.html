@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Curonex - Delivery Partner Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="delivery_partner.css">
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">
+    <div class="logo-icon">➕</div>
+    <div class="logo-text">
+      <h1>Curonex</h1>
+      <p>Delivery Partner Portal</p>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="bell-wrap" id="bellWrap">
+      <span class="bell-icon">🔔</span>
+      <span class="badge" id="notifBadge">3</span>
+      <div class="notif-dropdown" id="notifDropdown">
+        <div class="notif-header">Notifications</div>
+        <div class="notif-item">
+          <span class="notif-dot new"></span>
+          <div><strong>New order available</strong><p>#CUR125678 - MedPlus Pharmacy</p></div>
+        </div>
+        <div class="notif-item">
+          <span class="notif-dot new"></span>
+          <div><strong>Payment credited</strong><p>₹1,680 added to your wallet</p></div>
+        </div>
+        <div class="notif-item">
+          <span class="notif-dot new"></span>
+          <div><strong>Customer rated you</strong><p>5★ for order #CUR123450</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="help-wrap">
+      <span class="help-icon">❓</span>
+      <span>Help</span>
+    </div>
+    <div class="user-wrap" id="userWrap">
+      <img class="avatar" src="https://i.pravatar.cc/150?img=13" alt="Kaushik T">
+      <div class="user-text">
+        <span class="username">Kaushik T</span>
+        <span class="status"><i class="status-dot"></i> Online</span>
+      </div>
+      <span class="chevron" id="chevronIcon">▾</span>
+      <div class="dropdown-menu" id="dropdownMenu">
+        <a href="#" class="dropdown-item">👤 My Profile</a>
+        <a href="#" class="dropdown-item">⚙️ Settings</a>
+        <div class="dropdown-divider"></div>
+        <a href="#" class="dropdown-item logout" id="logoutBtn">🚪 Logout</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="layout">
+  <div class="sidebar">
+    <div class="side-item active" data-page="dashboard"><span class="side-icon">🏠</span> Dashboard</div>
+    <div class="side-item" data-page="orders"><span class="side-icon">📦</span> Available Orders <span class="side-badge" id="ordersBadge">5</span></div>
+    <div class="side-item" data-page="active"><span class="side-icon">🛵</span> Active Deliveries <span class="side-badge" id="activeBadge">2</span></div>
+    <div class="side-item" data-page="history"><span class="side-icon">📋</span> Delivery History</div>
+    <div class="side-item" data-page="earnings"><span class="side-icon">💰</span> Earnings</div>
+    <div class="side-item" data-page="ratings"><span class="side-icon">⭐</span> Ratings &amp; Reviews</div>
+    <div class="side-item" data-page="settings"><span class="side-icon">⚙️</span> Settings</div>
+
+    <div class="sidebar-support">
+      <div class="support-icon">🎧</div>
+      <h4>Need Help?</h4>
+      <p class="support-title">Support Center</p>
+      <p class="support-sub">We are here to help you 24/7</p>
+      <button class="contact-support-btn" id="contactSupportBtn">Contact Support</button>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="main-top">
+      <div class="greeting">
+        <h2 id="greetingText">Good Morning, Kaushik! 👋</h2>
+        <p>Complete deliveries and earn more today.</p>
+      </div>
+      <div class="availability-card">
+        <div class="availability-label">Availability</div>
+        <label class="toggle">
+          <input type="checkbox" id="availabilityToggle" checked>
+          <span class="slider"></span>
+        </label>
+        <div class="availability-status" id="availabilityStatus">You are Online</div>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-icon blue">📦</div>
+        <div class="stat-text">
+          <p class="stat-label">Today's Deliveries</p>
+          <h3 id="statDeliveries">12</h3>
+          <a href="#" class="stat-link">Completed: <span id="statCompleted">8</span> →</a>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon green">₹</div>
+        <div class="stat-text">
+          <p class="stat-label">Today's Earnings</p>
+          <h3 id="statEarnings">₹1,680</h3>
+          <a href="#" class="stat-link" data-nav="earnings">View details →</a>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon orange">⏳</div>
+        <div class="stat-text">
+          <p class="stat-label">Pending Pickups</p>
+          <h3 id="statPending">3</h3>
+          <a href="#" class="stat-link" data-nav="orders">View orders →</a>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon purple">✔</div>
+        <div class="stat-text">
+          <p class="stat-label">Completed Deliveries</p>
+          <h3 id="statCompletedTotal">8</h3>
+          <a href="#" class="stat-link" data-nav="history">View history →</a>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon yellow">⭐</div>
+        <div class="stat-text">
+          <p class="stat-label">Average Rating</p>
+          <h3 id="statRating">4.8</h3>
+          <a href="#" class="stat-link" data-nav="ratings">View reviews →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="quick-actions">
+      <p class="section-label">Quick Actions</p>
+      <div class="quick-actions-row">
+        <button class="qa-btn qa-green" id="goOnlineBtn">
+          <span class="qa-icon">▶</span> Go Online
+        </button>
+        <button class="qa-btn qa-orange" id="pauseBtn">
+          <span class="qa-icon">⏸</span> Pause Deliveries
+        </button>
+        <button class="qa-btn qa-blue" id="navigateBtn">
+          <span class="qa-icon">🧭</span> Navigate to Pickup
+        </button>
+        <button class="qa-btn qa-gray" id="scanBtn">
+          <span class="qa-icon">▦</span> Scan QR Code
+        </button>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Available Orders</h3>
+          <a href="#" class="view-all" data-nav="orders">View All (<span id="availableCount">5</span>) →</a>
+        </div>
+        <div id="availableOrdersList"></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Active Delivery</h3>
+          <a href="#" class="view-all" data-nav="active">View All (<span id="activeCount">2</span>) →</a>
+        </div>
+        <div id="activeDeliveryList"></div>
+      </div>
+    </div>
+
+    <div class="panel summary-panel">
+      <h3>Today's Deliveries Summary</h3>
+      <div class="summary-row">
+        <div class="summary-box">
+          <div class="summary-icon blue">📦</div>
+          <div><p>Accepted</p><h4 id="sumAccepted">12</h4></div>
+        </div>
+        <div class="summary-box">
+          <div class="summary-icon orange">📦</div>
+          <div><p>Picked Up</p><h4 id="sumPicked">3</h4></div>
+        </div>
+        <div class="summary-box">
+          <div class="summary-icon purple">🛵</div>
+          <div><p>Out for Delivery</p><h4 id="sumOut">2</h4></div>
+        </div>
+        <div class="summary-box">
+          <div class="summary-icon green">✔</div>
+          <div><p>Completed</p><h4 id="sumCompleted">8</h4></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="right-panel">
+    <div class="right-card earnings-card">
+      <div class="right-card-header"><span class="right-icon-wrap">💼</span> Today's Earnings</div>
+      <h2 id="rightEarnings">₹1,680</h2>
+      <div class="earnings-row"><span>This Week</span><strong id="weekEarnings">₹6,240</strong></div>
+      <div class="earnings-row"><span>This Month</span><strong id="monthEarnings">₹24,850</strong></div>
+      <button class="view-earnings-btn" data-nav="earnings">View Earnings</button>
+    </div>
+
+    <div class="right-card status-card">
+      <div class="right-card-header"><span class="right-icon-wrap">🚚</span> Delivery Status</div>
+      <div class="status-row"><span class="status-dot-lbl green"></span> Accepted <span class="status-count" id="statusAccepted">12</span></div>
+      <div class="status-row"><span class="status-dot-lbl orange"></span> Picked Up <span class="status-count" id="statusPicked">3</span></div>
+      <div class="status-row"><span class="status-dot-lbl blue"></span> Out for Delivery <span class="status-count" id="statusOut">2</span></div>
+      <div class="status-row"><span class="status-dot-lbl green"></span> Completed <span class="status-count" id="statusCompleted">8</span></div>
+    </div>
+
+    <div class="right-card help-card">
+      <div class="right-card-header"><span class="right-icon-wrap">🎧</span> Need Help?</div>
+      <div class="help-row" id="callSupportBtn"><span class="help-icon-sm">🎧</span><div><strong>Call Support</strong><p>24/7 Assistance</p></div></div>
+      <div class="help-row" id="callPharmacyBtn"><span class="help-icon-sm">📞</span><div><strong>Call Pharmacy</strong><p>Quick connect</p></div></div>
+      <div class="help-row emergency" id="emergencyBtn"><span class="help-icon-sm sos">SOS</span><div><strong>Emergency</strong><p>Urgent help</p></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box" id="modalBox"></div>
+</div>
+
+<script src="delivery_partner.js"></script>
+</body>
+</html>

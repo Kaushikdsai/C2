@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curonex | Login</title>
+
+    <link rel="stylesheet" href="login.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<header>
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            <i class="fa-solid fa-heart-circle-plus"></i>
+        </div>
+
+        <div>
+            <h2>Curonex</h2>
+            <p>Affordable Healthcare Access</p>
+        </div>
+
+    </div>
+
+    <nav>
+
+        <a href="#">About Us</a>
+
+        <a href="#">Contact</a>
+
+        <button id="registerBtn">
+            <i class="fa-regular fa-user"></i>
+            Register
+        </button>
+
+    </nav>
+
+</header>
+
+
+<!-- ================= MAIN ================= -->
+
+<main>
+
+
+<!-- ================= LEFT PANEL ================= -->
+
+<section class="left-panel">
+
+    <h1>Welcome Back!</h1>
+
+    <p class="subtitle">
+        Login to your Curonex account and access healthcare services seamlessly.
+    </p>
+
+    <img
+    src="https://cdn-icons-png.flaticon.com/512/295/295128.png"
+    class="illustration">
+
+
+    <div class="features">
+
+        <div class="feature">
+
+            <div class="icon green">
+
+                <i class="fa-solid fa-shield"></i>
+
+            </div>
+
+            <div>
+
+                <h4>Secure & Private</h4>
+
+                <p>Your data is safe with us</p>
+
+            </div>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="icon blue">
+
+                <i class="fa-solid fa-clock"></i>
+
+            </div>
+
+            <div>
+
+                <h4>Quick & Easy Access</h4>
+
+                <p>Login in seconds and get started</p>
+
+            </div>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="icon purple">
+
+                <i class="fa-solid fa-hospital-user"></i>
+
+            </div>
+
+            <div>
+
+                <h4>All-in-One Healthcare</h4>
+
+                <p>Appointments, Medicines, Emergency & more</p>
+
+            </div>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="icon orange">
+
+                <i class="fa-solid fa-bell"></i>
+
+            </div>
+
+            <div>
+
+                <h4>Stay Updated</h4>
+
+                <p>Real-time notifications</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="support-card">
+
+        <i class="fa-solid fa-headset supportIcon"></i>
+
+        <h3>Need Help?</h3>
+
+        <p>We are here to help you 24/7</p>
+
+        <button>Contact Support</button>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= LOGIN CARD ================= -->
+
+<section class="login-section">
+
+<div class="login-card">
+
+<h1>Login to Your Account</h1>
+
+<p>Enter your credentials to continue</p>
+
+
+<form id="loginForm">
+
+<!-- Email -->
+
+<div class="input-box">
+
+<i class="fa-regular fa-envelope"></i>
+
+<input
+type="text"
+id="username"
+placeholder="Email Address or Phone Number">
+
+</div>
+
+
+<!-- Password -->
+
+<div class="input-box">
+
+<i class="fa-solid fa-lock"></i>
+
+<input
+type="password"
+id="password"
+placeholder="Enter your password">
+
+<i
+class="fa-regular fa-eye togglePassword"
+id="togglePassword"></i>
+
+</div>
+
+
+<div class="options">
+
+<label>
+
+<input type="checkbox" id="remember">
+
+Remember Me
+
+</label>
+
+
+<a href="#" id="forgotPassword">
+
+Forgot Password?
+
+</a>
+
+</div>
+
+
+<button
+class="loginBtn"
+type="submit">
+
+<span>Login</span>
+
+<div class="loader"></div>
+
+</button>
+
+
+
+<div class="divider">
+
+<span>or continue with</span>
+
+</div>
+
+
+<div class="social">
+
+<button type="button">
+
+<i class="fa-brands fa-google"></i>
+
+Continue with Google
+
+</button>
+
+
+<button type="button">
+
+<i class="fa-brands fa-apple"></i>
+
+Continue with Apple
+
+</button>
+
+</div>
+
+
+
+<p class="registerText">
+
+Don't have an account?
+
+<a href="#">
+
+Register Now
+
+</a>
+
+</p>
+
+</form>
+
+</div>
+
+</section>
+
+</main>
+
+
+
+<!-- Toast -->
+
+<div id="toast"></div>
+
+
+<script src="login.js"></script>
+
+</body>
+</html>

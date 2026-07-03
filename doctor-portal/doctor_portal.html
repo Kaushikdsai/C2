@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Curonex - Doctor Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="doctor_portal.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">
+    <div class="logo-icon"><img src="../images/logo.jpg" height="40" width="44" style="border-radius:50%" /></div>
+    <div class="logo-text">
+      <h1>Curonex</h1>
+      <p>Doctor Portal</p>
+    </div>
+  </div>
+  <div class="nav">
+    <a href="#">About</a>
+    <a href="#">Contact</a>
+    <div class="bell-wrap">
+      <img src="../images/bell.png" height="24" width="24"/>
+      <span class="badge">3</span>
+    </div>
+    <div class="user-wrap" id="userWrap">
+      <div class="avatar">👤</div>
+      <span class="username">Dr. Arjun Mehta</span>
+      <span class="chevron" id="chevronIcon">▾</span>
+
+      <div class="dropdown-menu" id="dropdownMenu">
+        <a href="#" class="dropdown-item" id="myProfileBtn">👤 My Profile</a>
+        <a href="#" class="dropdown-item" id="settingsBtn">⚙️ Settings</a>
+        <div class="dropdown-divider"></div>
+        <a href="#" class="dropdown-item logout" id="logoutBtn">🚪 Logout</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="layout">
+  <div class="sidebar">
+    <div>
+      <div class="side-item active"><img src="../images/calendar.png" height="24" width="24"/> My Appointments</div>
+      <div class="side-item"><img src="../images/pharmacy.png" height="24" width="24"/>Prescriptions</div>
+      <div class="side-item"><img src="../images/ambulance.png" height="24" width="24"/> Emergency Consults</div>
+      <div class="side-item"><img src="../images/diabetes.png" height="24" width="24"/> Patient Records</div>
+      <div class="side-item"><img src="../images/refugee-camp.png" height="24" width="24"/>Medical Camps</div>
+    </div>
+  </div>
+
+  <div class="main">
+    <h2>My Schedule</h2>
+    <div class="breadcrumb">Home <span class="sep">›</span> My Appointments <span class="sep">›</span> Hospitals <span class="sep">›</span> <span class="current">Today's Slots</span></div>
+
+    <div class="doctor-card">
+      <img class="doctor-photo" src="https://i.pravatar.cc/150?img=12" alt="Dr. Arjun Mehta">
+      <div class="doctor-info">
+        <h3>Dr. Arjun Mehta <span class="verified">✔</span></h3>
+        <p class="specialty">Cardiologist</p>
+        <p class="meta"><img src="../images/experience.png" height="24" width="24"/> 12+ Years Experience    🎓 MBBS, MD (Cardiology)</p>
+        <p class="desc">Specializes in interventional cardiology, heart failure management and preventive cardiology.</p>
+      </div>
+      <div class="doctor-stats">
+        <p class="rating">⭐ 4.8 <span>/ 5</span></p>
+        <p class="reviews">(230 reviews)</p>
+        <div class="satisfaction">📋 9<br><span>Today's Appointments</span></div>
+      </div>
+    </div>
+
+    <h3 class="section-title">Hospitals &amp; Slots</h3>
+    <p class="section-sub">View your available and booked time slots across each hospital for the selected date.</p>
+
+    <div class="hospital-slot-card" data-hospital="City Care Hospital">
+      <div class="hospital-info">
+        <img src="https://images.unsplash.com/photo-1587351021355-a479a299d2f9?w=200&h=200&fit=crop" alt="City Care Hospital">
+        <div>
+          <h4>City Care Hospital</h4>
+          <p class="loc">📍 Banjara Hills, Hyderabad</p>
+          <p class="rating-sm">⭐ 4.6 <span>(1200+ reviews)</span></p>
+        </div>
+      </div>
+      <div class="dates-slots">
+        <p class="select-date-label">Date</p>
+        <div class="date-row">
+          <button class="arrow">‹</button>
+          <div class="date-box">Wed<br>29 May</div>
+          <div class="date-box active">Thu<br>30 May</div>
+          <div class="date-box">Fri<br>31 May</div>
+          <div class="date-box">Sat<br>01 Jun</div>
+          <div class="date-box">Sun<br>02 Jun</div>
+          <button class="arrow">›</button>
+        </div>
+        <p class="slots-label">Time Slots</p>
+        <div class="time-row">
+          <div class="time-box">09:00 AM</div>
+          <div class="time-box">10:00 AM</div>
+          <div class="time-box">11:00 AM</div>
+          <div class="time-box booked">12:00 PM</div>
+          <div class="time-box">02:00 PM</div>
+          <div class="time-box booked">04:00 PM</div>
+          <div class="time-box">05:00 PM</div>
+          <div class="time-box booked">06:00 PM</div>
+        </div>
+        <div class="legend">
+          <span><i class="dot available"></i> Available</span>
+          <span><i class="dot booked"></i> Booked</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hospital-slot-card" data-hospital="Sunrise Medical Center">
+      <div class="hospital-info">
+        <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=200&h=200&fit=crop" alt="Sunrise Medical Center">
+        <div>
+          <h4>Sunrise Medical Center</h4>
+          <p class="loc">📍 Gachibowli, Hyderabad</p>
+          <p class="rating-sm">⭐ 4.6 <span>(980+ reviews)</span></p>
+        </div>
+      </div>
+      <div class="dates-slots">
+        <p class="select-date-label">Date</p>
+        <div class="date-row">
+          <button class="arrow">‹</button>
+          <div class="date-box">Wed<br>29 May</div>
+          <div class="date-box active">Thu<br>30 May</div>
+          <div class="date-box">Fri<br>31 May</div>
+          <div class="date-box">Sat<br>01 Jun</div>
+          <div class="date-box">Sun<br>02 Jun</div>
+          <button class="arrow">›</button>
+        </div>
+        <p class="slots-label">Time Slots</p>
+        <div class="time-row">
+          <div class="time-box">08:30 AM</div>
+          <div class="time-box booked">10:30 AM</div>
+          <div class="time-box">01:00 PM</div>
+          <div class="time-box">02:00 PM</div>
+          <div class="time-box">03:00 PM</div>
+          <div class="time-box booked">05:00 PM</div>
+          <div class="time-box">07:00 PM</div>
+          <div class="time-box booked">08:00 PM</div>
+        </div>
+        <div class="legend">
+          <span><i class="dot available"></i> Available</span>
+          <span><i class="dot booked"></i> Booked</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hospital-slot-card" data-hospital="HealthPlus Hospital">
+      <div class="hospital-info">
+        <img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?w=200&h=200&fit=crop" alt="HealthPlus Hospital">
+        <div>
+          <h4>HealthPlus Hospital</h4>
+          <p class="loc">📍 Ameerpet, Hyderabad</p>
+          <p class="rating-sm">⭐ 4.4 <span>(870+ reviews)</span></p>
+        </div>
+      </div>
+      <div class="dates-slots">
+        <p class="select-date-label">Date</p>
+        <div class="date-row">
+          <button class="arrow">‹</button>
+          <div class="date-box">Wed<br>29 May</div>
+          <div class="date-box active">Thu<br>30 May</div>
+          <div class="date-box">Fri<br>31 May</div>
+          <div class="date-box">Sat<br>01 Jun</div>
+          <div class="date-box">Sun<br>02 Jun</div>
+          <button class="arrow">›</button>
+        </div>
+        <p class="slots-label">Time Slots</p>
+        <div class="time-row">
+          <div class="time-box">09:30 AM</div>
+          <div class="time-box">11:30 AM</div>
+          <div class="time-box booked">01:30 PM</div>
+          <div class="time-box booked">03:30 PM</div>
+          <div class="time-box">04:30 PM</div>
+          <div class="time-box">06:30 PM</div>
+          <div class="time-box booked">08:00 PM</div>
+          <div class="time-box booked">09:00 PM</div>
+        </div>
+        <div class="legend">
+          <span><i class="dot available"></i> Available</span>
+          <span><i class="dot booked"></i> Booked</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hospital-slot-card" data-hospital="Sunrise Medical Center">
+      <div class="hospital-info">
+        <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=200&h=200&fit=crop" alt="Sunrise Medical Center">
+        <div>
+          <h4>Sunrise Medical Center</h4>
+          <p class="loc">📍 Gachibowli, Hyderabad</p>
+          <p class="rating-sm">⭐ 4.6 <span>(980+ reviews)</span></p>
+        </div>
+      </div>
+      <div class="dates-slots">
+        <p class="select-date-label">Date</p>
+        <div class="date-row">
+          <button class="arrow">‹</button>
+          <div class="date-box">Wed<br>29 May</div>
+          <div class="date-box active">Thu<br>30 May</div>
+          <div class="date-box">Fri<br>31 May</div>
+          <div class="date-box">Sat<br>01 Jun</div>
+          <div class="date-box">Sun<br>02 Jun</div>
+          <button class="arrow">›</button>
+        </div>
+        <p class="slots-label">Time Slots</p>
+        <div class="time-row">
+          <div class="time-box">08:30 AM</div>
+          <div class="time-box booked">10:30 AM</div>
+          <div class="time-box">01:00 PM</div>
+          <div class="time-box">02:00 PM</div>
+          <div class="time-box">03:00 PM</div>
+          <div class="time-box booked">05:00 PM</div>
+          <div class="time-box">07:00 PM</div>
+          <div class="time-box booked">08:00 PM</div>
+        </div>
+        <div class="legend">
+          <span><i class="dot available"></i> Available</span>
+          <span><i class="dot booked"></i> Booked</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hospital-slot-card" data-hospital="HealthPlus Hospital">
+      <div class="hospital-info">
+        <img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?w=200&h=200&fit=crop" alt="HealthPlus Hospital">
+        <div>
+          <h4>HealthPlus Hospital</h4>
+          <p class="loc">📍 Ameerpet, Hyderabad</p>
+          <p class="rating-sm">⭐ 4.4 <span>(870+ reviews)</span></p>
+        </div>
+      </div>
+      <div class="dates-slots">
+        <p class="select-date-label">Date</p>
+        <div class="date-row">
+          <button class="arrow">‹</button>
+          <div class="date-box">Wed<br>29 May</div>
+          <div class="date-box active">Thu<br>30 May</div>
+          <div class="date-box">Fri<br>31 May</div>
+          <div class="date-box">Sat<br>01 Jun</div>
+          <div class="date-box">Sun<br>02 Jun</div>
+          <button class="arrow">›</button>
+        </div>
+        <p class="slots-label">Time Slots</p>
+        <div class="time-row">
+          <div class="time-box">09:30 AM</div>
+          <div class="time-box">11:30 AM</div>
+          <div class="time-box booked">01:30 PM</div>
+          <div class="time-box booked">03:30 PM</div>
+          <div class="time-box">04:30 PM</div>
+          <div class="time-box">06:30 PM</div>
+          <div class="time-box booked">08:00 PM</div>
+          <div class="time-box booked">09:00 PM</div>
+        </div>
+        <div class="legend">
+          <span><i class="dot available"></i> Available</span>
+          <span><i class="dot booked"></i> Booked</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="right-panel">
+    <div class="right-card">
+      <div class="right-icon">🕐</div>
+      <div class="right-text">
+        <h4>Past Appointments</h4>
+        <p>View your completed patient visits</p>
+      </div>
+      <span class="right-arrow">›</span>
+    </div>
+    <div class="right-card">
+      <div class="right-icon">📅</div>
+      <div class="right-text">
+        <h4>Upcoming</h4>
+        <p>View your upcoming patient appointments</p>
+      </div>
+      <span class="right-arrow">›</span>
+    </div>
+    <div class="right-card">
+      <div class="right-icon">✕</div>
+      <div class="right-text">
+        <h4>Cancelled</h4>
+        <p>View cancelled appointments</p>
+      </div>
+      <span class="right-arrow">›</span>
+    </div>
+
+    <div class="promo-box">
+      <div class="promo-icon">🗓️</div>
+      <p>Keep track of your slots and patient appointments across all hospitals in one place.</p>
+    </div>
+  </div>
+</div>
+<script src="doctor_portal.js"></script>
+</body>
+</html>
