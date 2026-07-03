@@ -1,304 +1,230 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Curonex | Login</title>
-
-    <link rel="stylesheet" href="login.css">
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Curonex - Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="login.css">
 </head>
-
 <body>
 
-<!-- ================= NAVBAR ================= -->
+<div class="navbar">
+  <div class="nav-logo">
+    <div class="nav-logo-icon">➕</div>
+    <div class="nav-logo-text">
+      <h1>Curonex</h1>
+      <p>Affordable Healthcare Access</p>
+    </div>
+  </div>
+  <div class="nav-right">
+    <a href="#" class="nav-link">About Us</a>
+    <a href="#" class="nav-link">Contact</a>
+    <button class="register-btn" id="registerBtn">👤 Register</button>
+  </div>
+</div>
 
-<header>
+<div class="page-container">
 
-    <div class="logo">
+  <!-- LEFT PANEL -->
+  <div class="left-panel">
+    <h2>Welcome Back!</h2>
+    <p class="left-sub">Login to your Curonex account and access healthcare services seamlessly.</p>
 
-        <div class="logo-icon">
-            <i class="fa-solid fa-heart-circle-plus"></i>
-        </div>
+    <div class="illustration">🔒</div>
 
-        <div>
-            <h2>Curonex</h2>
-            <p>Affordable Healthcare Access</p>
-        </div>
-
+    <div class="feature-list">
+      <div class="feature-item">
+        <div class="feature-icon green">✔</div>
+        <div><strong>Secure &amp; Private</strong><p>Your data is safe with us</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon blue">🕐</div>
+        <div><strong>Quick &amp; Easy Access</strong><p>Login in seconds and get started</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon purple">👤</div>
+        <div><strong>All-in-One Healthcare</strong><p>Appointments, Medicines, Emergency &amp; more</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon yellow">🔔</div>
+        <div><strong>Stay Updated</strong><p>Get real-time updates and notifications</p></div>
+      </div>
     </div>
 
-    <nav>
+    <div class="help-box">
+      <div class="help-icon-box">🎧</div>
+      <div>
+        <strong>Need Help?</strong>
+        <p>We are here to help you 24/7</p>
+        <a href="#" class="contact-support-link">Contact Support →</a>
+      </div>
+    </div>
+  </div>
 
-        <a href="#">About Us</a>
+  <!-- LOGIN FORM PANEL -->
+  <div class="form-panel-wrap">
+    <div class="form-panel">
+      <h1>Login to Your Account</h1>
+      <p class="form-sub">Enter your credentials to continue</p>
 
-        <a href="#">Contact</a>
+      <div class="banner" id="lockoutBanner">
+        <span>🔒</span>
+        <div>
+          <strong>Account temporarily locked</strong>
+          <p>Too many failed attempts. Try again in <span id="lockoutTimer">60</span>s.</p>
+        </div>
+      </div>
 
-        <button id="registerBtn">
-            <i class="fa-regular fa-user"></i>
-            Register
+      <form id="loginForm" novalidate>
+        <div class="form-field">
+          <label>Email Address or Phone Number</label>
+          <div class="input-wrap">
+            <span class="input-icon">✉️</span>
+            <input type="text" id="identifier" placeholder="Enter your email address or mobile number" autocomplete="username">
+          </div>
+          <span class="error-msg" id="err-identifier"></span>
+        </div>
+
+        <div class="form-field">
+          <label>Password</label>
+          <div class="input-wrap">
+            <span class="input-icon">🔒</span>
+            <input type="password" id="password" placeholder="Enter your password" autocomplete="current-password">
+            <span class="toggle-eye" id="toggleEye">👁</span>
+          </div>
+          <span class="error-msg" id="err-password"></span>
+        </div>
+
+        <div class="form-row-between">
+          <label class="checkbox-row">
+            <input type="checkbox" id="rememberMe">
+            <span>Remember me</span>
+          </label>
+          <a href="#" class="forgot-link" id="forgotPasswordLink">Forgot Password?</a>
+        </div>
+
+        <button type="submit" class="btn-primary login-submit-btn" id="loginBtn">
+          <span id="loginBtnText">Login</span> <span id="loginBtnArrow">→</span>
         </button>
 
-    </nav>
+        <div class="divider"><span>or continue with</span></div>
 
-</header>
-
-
-<!-- ================= MAIN ================= -->
-
-<main>
-
-
-<!-- ================= LEFT PANEL ================= -->
-
-<section class="left-panel">
-
-    <h1>Welcome Back!</h1>
-
-    <p class="subtitle">
-        Login to your Curonex account and access healthcare services seamlessly.
-    </p>
-
-    <img
-    src="https://cdn-icons-png.flaticon.com/512/295/295128.png"
-    class="illustration">
-
-
-    <div class="features">
-
-        <div class="feature">
-
-            <div class="icon green">
-
-                <i class="fa-solid fa-shield"></i>
-
-            </div>
-
-            <div>
-
-                <h4>Secure & Private</h4>
-
-                <p>Your data is safe with us</p>
-
-            </div>
-
+        <div class="social-row">
+          <button type="button" class="social-btn" id="googleBtn">
+            <span class="social-icon">🇬</span> Continue with Google
+          </button>
+          <button type="button" class="social-btn" id="appleBtn">
+            <span class="social-icon"></span> Continue with Apple
+          </button>
         </div>
 
+        <p class="register-cta">Don't have an account? <a href="#" id="registerNowLink">Register Now</a></p>
+      </form>
+    </div>
+  </div>
+</div>
 
-        <div class="feature">
+<!-- FORGOT PASSWORD MODAL -->
+<div class="modal-overlay" id="forgotOverlay">
+  <div class="modal-box">
+    <button class="modal-close" id="closeForgotModal">✕</button>
 
-            <div class="icon blue">
+    <!-- STAGE 1: choose recovery method -->
+    <div class="modal-stage active" data-stage="1">
+      <div class="modal-icon">🔑</div>
+      <h3>Reset Your Password</h3>
+      <p class="modal-sub">Choose how you'd like to receive your verification code.</p>
 
-                <i class="fa-solid fa-clock"></i>
+      <div class="recovery-options" id="recoveryOptions">
+        <label class="recovery-option">
+          <input type="radio" name="recoveryMethod" value="email" checked>
+          <span class="recovery-icon">✉️</span>
+          <div><strong>Email</strong><p id="recoveryEmailMasked">k••••••@gmail.com</p></div>
+        </label>
+        <label class="recovery-option">
+          <input type="radio" name="recoveryMethod" value="phone">
+          <span class="recovery-icon">📱</span>
+          <div><strong>Primary Number</strong><p id="recoveryPhoneMasked">+91 98XXXXXX10</p></div>
+        </label>
+        <label class="recovery-option">
+          <input type="radio" name="recoveryMethod" value="altPhone">
+          <span class="recovery-icon">📞</span>
+          <div><strong>Alternate Number</strong><p id="recoveryAltPhoneMasked">+91 87XXXXXX45</p></div>
+        </label>
+      </div>
 
-            </div>
-
-            <div>
-
-                <h4>Quick & Easy Access</h4>
-
-                <p>Login in seconds and get started</p>
-
-            </div>
-
-        </div>
-
-
-        <div class="feature">
-
-            <div class="icon purple">
-
-                <i class="fa-solid fa-hospital-user"></i>
-
-            </div>
-
-            <div>
-
-                <h4>All-in-One Healthcare</h4>
-
-                <p>Appointments, Medicines, Emergency & more</p>
-
-            </div>
-
-        </div>
-
-
-        <div class="feature">
-
-            <div class="icon orange">
-
-                <i class="fa-solid fa-bell"></i>
-
-            </div>
-
-            <div>
-
-                <h4>Stay Updated</h4>
-
-                <p>Real-time notifications</p>
-
-            </div>
-
-        </div>
-
+      <button class="btn-primary" id="sendCodeBtn">Send Verification Code</button>
     </div>
 
+    <!-- STAGE 2: enter OTP -->
+    <div class="modal-stage" data-stage="2">
+      <div class="modal-icon">📩</div>
+      <h3>Enter Verification Code</h3>
+      <p class="modal-sub">We've sent a 6-digit code to <strong id="sentToDisplay"></strong></p>
 
+      <div class="otp-row" id="otpRow">
+        <input type="text" class="otp-box" maxlength="1" inputmode="numeric">
+        <input type="text" class="otp-box" maxlength="1" inputmode="numeric">
+        <input type="text" class="otp-box" maxlength="1" inputmode="numeric">
+        <input type="text" class="otp-box" maxlength="1" inputmode="numeric">
+        <input type="text" class="otp-box" maxlength="1" inputmode="numeric">
+        <input type="text" class="otp-box" maxlength="1" inputmode="numeric">
+      </div>
+      <span class="error-msg" id="err-otp"></span>
 
-    <div class="support-card">
+      <div class="resend-row">
+        <span id="resendTimerText">Resend code in <strong id="resendTimer">30</strong>s</span>
+        <button type="button" id="resendBtn" class="resend-btn" disabled>Resend Code</button>
+      </div>
 
-        <i class="fa-solid fa-headset supportIcon"></i>
-
-        <h3>Need Help?</h3>
-
-        <p>We are here to help you 24/7</p>
-
-        <button>Contact Support</button>
-
+      <button class="btn-primary" id="verifyOtpBtn">Verify Code</button>
+      <button class="btn-secondary modal-back-btn" id="backToStage1">← Choose a different method</button>
     </div>
 
-</section>
+    <!-- STAGE 3: new password -->
+    <div class="modal-stage" data-stage="3">
+      <div class="modal-icon">🔐</div>
+      <h3>Set New Password</h3>
+      <p class="modal-sub">Choose a strong password you haven't used before.</p>
 
+      <div class="form-field">
+        <label>New Password</label>
+        <div class="input-wrap">
+          <span class="input-icon">🔒</span>
+          <input type="password" id="newPassword" placeholder="Enter new password">
+          <span class="toggle-eye" data-target="newPassword">👁</span>
+        </div>
+        <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
+        <span class="hint-text" id="strengthText">Use 8+ characters with a mix of letters, numbers &amp; symbols</span>
+        <span class="error-msg" id="err-newPassword"></span>
+      </div>
 
+      <div class="form-field">
+        <label>Confirm New Password</label>
+        <div class="input-wrap">
+          <span class="input-icon">🔒</span>
+          <input type="password" id="confirmNewPassword" placeholder="Confirm new password">
+          <span class="toggle-eye" data-target="confirmNewPassword">👁</span>
+        </div>
+        <span class="error-msg" id="err-confirmNewPassword"></span>
+      </div>
 
-<!-- ================= LOGIN CARD ================= -->
+      <button class="btn-primary" id="resetPasswordBtn">Reset Password</button>
+    </div>
 
-<section class="login-section">
-
-<div class="login-card">
-
-<h1>Login to Your Account</h1>
-
-<p>Enter your credentials to continue</p>
-
-
-<form id="loginForm">
-
-<!-- Email -->
-
-<div class="input-box">
-
-<i class="fa-regular fa-envelope"></i>
-
-<input
-type="text"
-id="username"
-placeholder="Email Address or Phone Number">
-
+    <!-- STAGE 4: success -->
+    <div class="modal-stage" data-stage="4">
+      <div class="modal-icon success">✔</div>
+      <h3>Password Reset!</h3>
+      <p class="modal-sub">Your password has been changed successfully. You can now log in with your new password.</p>
+      <button class="btn-primary" id="backToLoginBtn">Back to Login</button>
+    </div>
+  </div>
 </div>
 
-
-<!-- Password -->
-
-<div class="input-box">
-
-<i class="fa-solid fa-lock"></i>
-
-<input
-type="password"
-id="password"
-placeholder="Enter your password">
-
-<i
-class="fa-regular fa-eye togglePassword"
-id="togglePassword"></i>
-
-</div>
-
-
-<div class="options">
-
-<label>
-
-<input type="checkbox" id="remember">
-
-Remember Me
-
-</label>
-
-
-<a href="#" id="forgotPassword">
-
-Forgot Password?
-
-</a>
-
-</div>
-
-
-<button
-class="loginBtn"
-type="submit">
-
-<span>Login</span>
-
-<div class="loader"></div>
-
-</button>
-
-
-
-<div class="divider">
-
-<span>or continue with</span>
-
-</div>
-
-
-<div class="social">
-
-<button type="button">
-
-<i class="fa-brands fa-google"></i>
-
-Continue with Google
-
-</button>
-
-
-<button type="button">
-
-<i class="fa-brands fa-apple"></i>
-
-Continue with Apple
-
-</button>
-
-</div>
-
-
-
-<p class="registerText">
-
-Don't have an account?
-
-<a href="#">
-
-Register Now
-
-</a>
-
-</p>
-
-</form>
-
-</div>
-
-</section>
-
-</main>
-
-
-
-<!-- Toast -->
-
-<div id="toast"></div>
-
+<div class="toast-container" id="toastContainer"></div>
 
 <script src="login.js"></script>
-
 </body>
 </html>

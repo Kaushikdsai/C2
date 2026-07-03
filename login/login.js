@@ -1,828 +1,394 @@
-// =====================================================
-// Curonex Login Page JavaScript
-// Part 3A
-// =====================================================
+// ===== MOCK ACCOUNT (simulating a backend record) =====
+const MOCK_ACCOUNT = {
+  email: "kaushik.t@gmail.com",
+  phone: "9876543210",
+  altPhone: "8765432145",
+  password: "Curonex@123"
+};
+
+const state = {
+  failedAttempts: 0,
+  maxAttempts: 5,
+  lockoutTimer: null,
+  lockoutSeconds: 60,
+  isLocked: false,
+  resendTimer: null,
+  resendSeconds: 30,
+  recoveryMethod: "email"
+};
 
 document.addEventListener("DOMContentLoaded", () => {
-
-    // ===========================
-    // DOM Elements
-    // ===========================
-
-    const form = document.getElementById("loginForm");
-    const username = document.getElementById("username");
-    const password = document.getElementById("password");
-    const remember = document.getElementById("remember");
-
-    const togglePassword = document.getElementById("togglePassword");
-
-    const loginButton = document.querySelector(".loginBtn");
-
-    const loader = document.querySelector(".loader");
-
-    const buttonText = loginButton.querySelector("span");
-
-    const toast = document.getElementById("toast");
-
-    let loginAttempts = 0;
-    let isSubmitting = false;
-
-    // ===========================
-    // Toast
-    // ===========================
-
-    function showToast(message, type = "info") {
-
-        toast.innerText = message;
-
-        toast.className = "show";
-
-        switch(type){
-
-            case "success":
-                toast.style.background="#16a34a";
-                break;
-
-            case "error":
-                toast.style.background="#dc2626";
-                break;
-
-            case "warning":
-                toast.style.background="#f59e0b";
-                break;
-
-            default:
-                toast.style.background="#2563eb";
-
-        }
-
-        setTimeout(()=>{
-
-            toast.classList.remove("show");
-
-        },3000);
-
-    }
-
-    // ===========================
-    // Trim Spaces
-    // ===========================
-
-    username.addEventListener("blur",()=>{
-
-        username.value=username.value.trim();
-
-    });
-
-    password.addEventListener("blur",()=>{
-
-        password.value=password.value.trim();
-
-    });
-
-    // ===========================
-    // Password Toggle
-    // ===========================
-
-    togglePassword.addEventListener("click",()=>{
-
-        if(password.type==="password"){
-
-            password.type="text";
-
-            togglePassword.classList.remove("fa-eye");
-
-            togglePassword.classList.add("fa-eye-slash");
-
-        }
-
-        else{
-
-            password.type="password";
-
-            togglePassword.classList.remove("fa-eye-slash");
-
-            togglePassword.classList.add("fa-eye");
-
-        }
-
-    });
-
-    // ===========================
-    // Email Validation
-    // ===========================
-
-    function validEmail(email){
-
-        const regex=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-        return regex.test(email);
-
-    }
-
-    // ===========================
-    // Indian Mobile Validation
-    // ===========================
-
-    function validPhone(phone){
-
-        return /^[6-9]\d{9}$/.test(phone);
-
-    }
-
-    // ===========================
-    // Password Validation
-    // ===========================
-
-    function validPassword(pass){
-
-        return pass.length>=8;
-
-    }
-
-    // ===========================
-    // Remember Me
-    // ===========================
-
-    if(localStorage.getItem("rememberMe")==="true"){
-
-        username.value=localStorage.getItem("savedUsername") || "";
-
-        remember.checked=true;
-
-    }
-
-    remember.addEventListener("change",()=>{
-
-        if(remember.checked){
-
-            localStorage.setItem("rememberMe","true");
-
-            localStorage.setItem("savedUsername",username.value);
-
-        }
-
-        else{
-
-            localStorage.removeItem("rememberMe");
-
-            localStorage.removeItem("savedUsername");
-
-        }
-
-    });
-
-    username.addEventListener("input",()=>{
-
-        if(remember.checked){
-
-            localStorage.setItem("savedUsername",username.value);
-
-        }
-
-    });
-
-    // ===========================
-    // Caps Lock Detection
-    // ===========================
-
-    password.addEventListener("keyup",(e)=>{
-
-        if(e.getModifierState("CapsLock")){
-
-            showToast("Caps Lock is ON","warning");
-
-        }
-
-    });
-
-    // ===========================
-    // Prevent Spaces
-    // ===========================
-
-    username.addEventListener("keydown",(e)=>{
-
-        if(e.key===" "){
-
-            e.preventDefault();
-
-        }
-
-    });
-
-    // ===========================
-    // Prevent Multiple Clicks
-    // ===========================
-
-    function setLoading(state){
-
-        if(state){
-
-            loader.style.display="block";
-
-            buttonText.style.display="none";
-
-            loginButton.disabled=true;
-
-        }
-
-        else{
-
-            loader.style.display="none";
-
-            buttonText.style.display="block";
-
-            loginButton.disabled=false;
-
-        }
-
-    }
-    // =====================================================
-// PART 3B - Login Logic
-// =====================================================
-
-// ---------- Authentication ----------
-
-function authenticate(user, pass){
-
-    // Demo credentials
-    const validUsers=[
-
-        {
-            username:"admin@curonex.com",
-            password:"Admin@123",
-            role:"Administrator"
-        },
-
-        {
-            username:"doctor@curonex.com",
-            password:"Doctor@123",
-            role:"Doctor"
-        },
-
-        {
-            username:"patient@curonex.com",
-            password:"Patient@123",
-            role:"Patient"
-        },
-
-        {
-            username:"delivery@curonex.com",
-            password:"Delivery@123",
-            role:"Delivery Partner"
-        }
-
-    ];
-
-    return validUsers.find(account=>
-
-        account.username.toLowerCase()===user.toLowerCase()
-        &&
-        account.password===pass
-
-    );
-
-}
-
-
-// ---------- Login ----------
-
-form.addEventListener("submit",(e)=>{
-
+  restoreRememberedUser();
+  bindLoginForm();
+  bindPasswordToggle();
+  bindForgotPasswordModal();
+  bindSocialButtons();
+  bindNavButtons();
+});
+
+// ===== LOGIN FORM =====
+function bindLoginForm() {
+  document.getElementById("loginForm").addEventListener("submit", (e) => {
     e.preventDefault();
-
-    if(isSubmitting) return;
-
-    const user=username.value.trim();
-
-    const pass=password.value;
-
-    // Empty fields
-
-    if(user===""){
-
-        showToast("Please enter your email or mobile number.","error");
-
-        username.focus();
-
-        return;
-
+    if (state.isLocked) {
+      showToast("Account is locked. Please wait before trying again.", "error");
+      return;
     }
+    if (!validateLoginForm()) return;
+    attemptLogin();
+  });
 
-    if(pass===""){
+  document.getElementById("identifier").addEventListener("input", () => clearFieldError("identifier"));
+  document.getElementById("password").addEventListener("input", () => clearFieldError("password"));
+}
 
-        showToast("Please enter your password.","error");
+function validateLoginForm() {
+  clearFieldError("identifier");
+  clearFieldError("password");
+  let valid = true;
 
-        password.focus();
+  const identifier = document.getElementById("identifier").value.trim();
+  const password = document.getElementById("password").value;
 
-        return;
-
+  if (!identifier) {
+    setFieldError("identifier", "Email or phone number is required");
+    valid = false;
+  } else {
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier);
+    const isPhone = /^\d{10}$/.test(identifier.replace(/\D/g, ""));
+    if (!isEmail && !isPhone) {
+      setFieldError("identifier", "Enter a valid email address or 10-digit phone number");
+      valid = false;
     }
+  }
 
-    // Email / Mobile validation
+  if (!password) {
+    setFieldError("password", "Password is required");
+    valid = false;
+  }
 
-    const email=validEmail(user);
+  return valid;
+}
 
-    const phone=validPhone(user);
+function attemptLogin() {
+  const btn = document.getElementById("loginBtn");
+  const btnText = document.getElementById("loginBtnText");
+  btn.disabled = true;
+  btn.classList.add("loading");
+  btnText.textContent = "Logging in";
 
-    if(!email && !phone){
+  const identifier = document.getElementById("identifier").value.trim().toLowerCase();
+  const password = document.getElementById("password").value;
+  const rememberMe = document.getElementById("rememberMe").checked;
 
-        showToast("Enter a valid email or phone number.","warning");
+  setTimeout(() => {
+    const matchesIdentifier = identifier === MOCK_ACCOUNT.email || identifier.replace(/\D/g, "") === MOCK_ACCOUNT.phone;
+    const matchesPassword = password === MOCK_ACCOUNT.password;
 
-        username.focus();
+    if (matchesIdentifier && matchesPassword) {
+      state.failedAttempts = 0;
+      if (rememberMe) {
+        localStorage.setItem("curonex_remember", identifier);
+      } else {
+        localStorage.removeItem("curonex_remember");
+      }
+      btnText.textContent = "Success!";
+      showToast("Login successful! Redirecting...", "success");
+      setTimeout(() => {
+        showToast("Redirecting to dashboard...", "info");
+      }, 1200);
+    } else {
+      state.failedAttempts++;
+      btn.disabled = false;
+      btn.classList.remove("loading");
+      btnText.textContent = "Login";
 
-        return;
-
+      if (state.failedAttempts >= state.maxAttempts) {
+        lockAccount();
+      } else {
+        const remaining = state.maxAttempts - state.failedAttempts;
+        setFieldError("password", "Incorrect email/phone or password");
+        showToast(`Login failed. ${remaining} attempt${remaining !== 1 ? "s" : ""} remaining.`, "error");
+      }
     }
+  }, 1000);
+}
 
-    // Password validation
+function lockAccount() {
+  state.isLocked = true;
+  const banner = document.getElementById("lockoutBanner");
+  const timerEl = document.getElementById("lockoutTimer");
+  const loginBtn = document.getElementById("loginBtn");
 
-    if(!validPassword(pass)){
+  banner.classList.add("show");
+  loginBtn.disabled = true;
+  state.lockoutSeconds = 60;
+  timerEl.textContent = state.lockoutSeconds;
 
-        showToast("Password must contain at least 8 characters.","warning");
-
-        password.focus();
-
-        return;
-
+  clearInterval(state.lockoutTimer);
+  state.lockoutTimer = setInterval(() => {
+    state.lockoutSeconds--;
+    timerEl.textContent = state.lockoutSeconds;
+    if (state.lockoutSeconds <= 0) {
+      clearInterval(state.lockoutTimer);
+      state.isLocked = false;
+      state.failedAttempts = 0;
+      banner.classList.remove("show");
+      loginBtn.disabled = false;
+      showToast("You can now try logging in again", "info");
     }
+  }, 1000);
 
-    // Offline
+  showToast("Too many failed attempts. Account locked for 60 seconds.", "error");
+}
 
-    if(!navigator.onLine){
+function restoreRememberedUser() {
+  const saved = localStorage.getItem("curonex_remember");
+  if (saved) {
+    document.getElementById("identifier").value = saved;
+    document.getElementById("rememberMe").checked = true;
+  }
+}
 
-        showToast("No internet connection.","error");
+// ===== PASSWORD VISIBILITY =====
+function bindPasswordToggle() {
+  document.getElementById("toggleEye").addEventListener("click", () => {
+    const input = document.getElementById("password");
+    const eye = document.getElementById("toggleEye");
+    const isPwd = input.type === "password";
+    input.type = isPwd ? "text" : "password";
+    eye.textContent = isPwd ? "🙈" : "👁";
+  });
 
-        return;
+  document.querySelectorAll(".toggle-eye[data-target]").forEach(eye => {
+    eye.addEventListener("click", () => {
+      const input = document.getElementById(eye.dataset.target);
+      const isPwd = input.type === "password";
+      input.type = isPwd ? "text" : "password";
+      eye.textContent = isPwd ? "🙈" : "👁";
+    });
+  });
+}
 
-    }
+// ===== FIELD ERRORS =====
+function setFieldError(id, message) {
+  const field = document.getElementById(id).closest(".form-field");
+  document.getElementById(`err-${id}`).textContent = message;
+  field.classList.add("error");
+}
+function clearFieldError(id) {
+  const field = document.getElementById(id).closest(".form-field");
+  const errEl = document.getElementById(`err-${id}`);
+  if (errEl) errEl.textContent = "";
+  if (field) field.classList.remove("error");
+}
 
-    isSubmitting=true;
+// ===== FORGOT PASSWORD MODAL =====
+function bindForgotPasswordModal() {
+  const overlay = document.getElementById("forgotOverlay");
 
-    setLoading(true);
-
-    // Simulate API request
-
-    setTimeout(()=>{
-
-        const account=authenticate(user,pass);
-
-        if(account){
-
-            loginAttempts=0;
-
-            sessionStorage.setItem("loggedIn","true");
-
-            sessionStorage.setItem("username",user);
-
-            sessionStorage.setItem("role",account.role);
-
-            showToast("Login Successful","success");
-
-            setTimeout(()=>{
-
-                // Replace with dashboard
-
-                window.location.href="dashboard.html";
-
-            },1200);
-
-        }
-
-        else{
-
-            loginAttempts++;
-
-            setLoading(false);
-
-            isSubmitting=false;
-
-            password.value="";
-
-            password.focus();
-
-            if(loginAttempts>=5){
-
-                loginButton.disabled=true;
-
-                showToast("Too many failed attempts. Wait 30 seconds.","error");
-
-                setTimeout(()=>{
-
-                    loginAttempts=0;
-
-                    loginButton.disabled=false;
-
-                },30000);
-
-            }
-
-            else{
-
-                showToast(
-
-                    "Invalid username or password.",
-
-                    "error"
-
-                );
-
-            }
-
-        }
-
-    },1800);
-
-});
-
-
-// ---------- Enter Key ----------
-
-username.addEventListener("keypress",(e)=>{
-
-    if(e.key==="Enter"){
-
-        password.focus();
-
-    }
-
-});
-
-password.addEventListener("keypress",(e)=>{
-
-    if(e.key==="Enter"){
-
-        form.requestSubmit();
-
-    }
-
-});
-
-
-// ---------- Forgot Password ----------
-
-document
-
-.getElementById("forgotPassword")
-
-.addEventListener("click",(e)=>{
-
+  document.getElementById("forgotPasswordLink").addEventListener("click", (e) => {
     e.preventDefault();
-
-    showToast(
-
-        "Password recovery page coming soon.",
-
-        "info"
-
-    );
-
-});
-
-
-// ---------- Register ----------
-
-document
-
-.getElementById("registerBtn")
-
-.addEventListener("click",()=>{
-
-    window.location.href="register.html";
-
-});
-
-
-// ---------- Contact Support ----------
-
-const supportButton=document.querySelector(".support-card button");
-
-if(supportButton){
-
-supportButton.addEventListener("click",()=>{
-
-showToast(
-
-"Support is available 24/7.",
-
-"info"
-
-);
-
-});
-
-}
-
-
-// ---------- Social Login ----------
-
-document
-
-.querySelectorAll(".social button")
-
-.forEach(button=>{
-
-button.addEventListener("click",()=>{
-
-showToast(
-
-"Social login is not implemented in demo.",
-
-"warning"
-
-);
-
-});
-
-});
-
-
-// ---------- Disable Button if Empty ----------
-
-function updateButton(){
-
-const filled=
-
-username.value.trim()!=="" &&
-
-password.value.trim()!=="";
-
-loginButton.disabled=!filled;
-
-}
-
-username.addEventListener("input",updateButton);
-
-password.addEventListener("input",updateButton);
-
-updateButton();
-// =====================================================
-// PART 3C - Edge Cases & Final Initialization
-// =====================================================
-
-// -----------------------------
-// Online / Offline Detection
-// -----------------------------
-
-window.addEventListener("offline", () => {
-
-    showToast("Internet connection lost.", "error");
-
-    loginButton.disabled = true;
-
-});
-
-window.addEventListener("online", () => {
-
-    showToast("Connection restored.", "success");
-
-    updateButton();
-
-});
-
-// -----------------------------
-// Idle Session Timeout
-// -----------------------------
-
-let idleTimer;
-
-function resetIdleTimer() {
-
-    clearTimeout(idleTimer);
-
-    idleTimer = setTimeout(() => {
-
-        sessionStorage.clear();
-
-        showToast("Session expired due to inactivity.","warning");
-
-    }, 900000); // 15 minutes
-
-}
-
-["mousemove","keydown","click","scroll","touchstart"].forEach(event => {
-
-    document.addEventListener(event, resetIdleTimer);
-
-});
-
-resetIdleTimer();
-
-// -----------------------------
-// Input Sanitization
-// -----------------------------
-
-function sanitizeInput(value){
-
-    return value
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"")
-        .replace(/'/g,"")
-        .trim();
-
-}
-
-username.addEventListener("input",()=>{
-
-    username.value=sanitizeInput(username.value);
-
-});
-
-// -----------------------------
-// Password Paste Warning
-// -----------------------------
-
-password.addEventListener("paste",(e)=>{
-
-    showToast("Pasting passwords is discouraged.","warning");
-
-});
-
-// -----------------------------
-// Prevent Rapid Submit
-// -----------------------------
-
-let lastSubmit=0;
-
-form.addEventListener("submit",(e)=>{
-
-    const now=Date.now();
-
-    if(now-lastSubmit<2000){
-
-        e.preventDefault();
-
-        showToast("Please wait before trying again.","warning");
-
-        return;
-
+    if (state.isLocked) {
+      showToast("Please wait for the lockout to end before resetting", "error");
+      return;
     }
+    openForgotModal();
+  });
 
-    lastSubmit=now;
+  document.getElementById("closeForgotModal").addEventListener("click", closeForgotModal);
+  overlay.addEventListener("click", (e) => { if (e.target === overlay) closeForgotModal(); });
 
-},true);
+  document.getElementById("sendCodeBtn").addEventListener("click", () => {
+    state.recoveryMethod = document.querySelector('input[name="recoveryMethod"]:checked').value;
+    const displayMap = {
+      email: document.getElementById("recoveryEmailMasked").textContent,
+      phone: document.getElementById("recoveryPhoneMasked").textContent,
+      altPhone: document.getElementById("recoveryAltPhoneMasked").textContent
+    };
+    document.getElementById("sentToDisplay").textContent = displayMap[state.recoveryMethod];
+    goToStage(2);
+    startResendTimer();
+    showToast(`Verification code sent via ${state.recoveryMethod === "email" ? "email" : state.recoveryMethod === "phone" ? "SMS to primary number" : "SMS to alternate number"}`, "success");
+  });
 
-// -----------------------------
-// Autofill Detection
-// -----------------------------
+  document.getElementById("backToStage1").addEventListener("click", () => {
+    goToStage(1);
+    clearInterval(state.resendTimer);
+  });
 
-window.addEventListener("load",()=>{
+  bindOtpBoxes();
 
-    setTimeout(()=>{
-
-        updateButton();
-
-    },500);
-
-});
-
-// -----------------------------
-// Clear Password on Refresh
-// -----------------------------
-
-window.addEventListener("beforeunload",()=>{
-
-    password.value="";
-
-});
-
-// -----------------------------
-// Browser Visibility
-// -----------------------------
-
-document.addEventListener("visibilitychange",()=>{
-
-    if(document.hidden){
-
-        console.log("Login page hidden");
-
+  document.getElementById("verifyOtpBtn").addEventListener("click", () => {
+    const otp = Array.from(document.querySelectorAll("#otpRow .otp-box")).map(b => b.value).join("");
+    document.getElementById("err-otp").textContent = "";
+    if (otp.length !== 6) {
+      document.getElementById("err-otp").textContent = "Please enter the complete 6-digit code";
+      return;
     }
+    // Simulate verification (any 6 digits accepted in this mock)
+    goToStage(3);
+    showToast("Code verified successfully", "success");
+  });
 
-    else{
+  document.getElementById("resendBtn").addEventListener("click", () => {
+    startResendTimer();
+    showToast("A new verification code has been sent", "success");
+  });
 
-        console.log("Login page active");
+  bindNewPasswordValidation();
 
+  document.getElementById("resetPasswordBtn").addEventListener("click", () => {
+    if (!validateNewPassword()) return;
+    MOCK_ACCOUNT.password = document.getElementById("newPassword").value;
+    goToStage(4);
+  });
+
+  document.getElementById("backToLoginBtn").addEventListener("click", () => {
+    closeForgotModal();
+    showToast("Password updated. Please log in with your new password.", "success");
+  });
+}
+
+function openForgotModal() {
+  document.getElementById("forgotOverlay").classList.add("show");
+  goToStage(1);
+  document.querySelectorAll("#otpRow .otp-box").forEach(b => { b.value = ""; b.classList.remove("filled"); });
+  document.getElementById("newPassword").value = "";
+  document.getElementById("confirmNewPassword").value = "";
+  document.getElementById("err-newPassword").textContent = "";
+  document.getElementById("err-confirmNewPassword").textContent = "";
+}
+
+function closeForgotModal() {
+  document.getElementById("forgotOverlay").classList.remove("show");
+  clearInterval(state.resendTimer);
+}
+
+function goToStage(n) {
+  document.querySelectorAll(".modal-stage").forEach(s => s.classList.remove("active"));
+  document.querySelector(`.modal-stage[data-stage="${n}"]`).classList.add("active");
+}
+
+// ===== OTP =====
+function bindOtpBoxes() {
+  const boxes = document.querySelectorAll("#otpRow .otp-box");
+  boxes.forEach((box, i) => {
+    box.addEventListener("input", () => {
+      box.value = box.value.replace(/\D/g, "");
+      box.classList.toggle("filled", !!box.value);
+      if (box.value && i < boxes.length - 1) boxes[i + 1].focus();
+    });
+    box.addEventListener("keydown", (e) => {
+      if (e.key === "Backspace" && !box.value && i > 0) boxes[i - 1].focus();
+    });
+    box.addEventListener("paste", (e) => {
+      e.preventDefault();
+      const digits = (e.clipboardData.getData("text") || "").replace(/\D/g, "").slice(0, 6).split("");
+      digits.forEach((d, idx) => { if (boxes[idx]) { boxes[idx].value = d; boxes[idx].classList.add("filled"); } });
+      if (digits.length) boxes[Math.min(digits.length, boxes.length) - 1].focus();
+    });
+  });
+}
+
+function startResendTimer() {
+  clearInterval(state.resendTimer);
+  state.resendSeconds = 30;
+  const resendBtn = document.getElementById("resendBtn");
+  const timerText = document.getElementById("resendTimerText");
+  const timerEl = document.getElementById("resendTimer");
+  resendBtn.disabled = true;
+  timerText.style.display = "inline";
+
+  state.resendTimer = setInterval(() => {
+    state.resendSeconds--;
+    timerEl.textContent = state.resendSeconds;
+    if (state.resendSeconds <= 0) {
+      clearInterval(state.resendTimer);
+      timerText.style.display = "none";
+      resendBtn.disabled = false;
     }
+  }, 1000);
+}
 
-});
+// ===== NEW PASSWORD VALIDATION =====
+function bindNewPasswordValidation() {
+  const pwd = document.getElementById("newPassword");
+  pwd.addEventListener("input", () => {
+    const score = getPasswordScore(pwd.value);
+    const fill = document.getElementById("strengthFill");
+    const text = document.getElementById("strengthText");
+    const colors = ["#D32F2F", "#D32F2F", "#f59e0b", "#f59e0b", "#2E7D32"];
+    const labels = ["Very Weak", "Weak", "Fair", "Good", "Strong"];
+    const pct = [10, 30, 55, 80, 100];
+    fill.style.width = pct[score] + "%";
+    fill.style.background = colors[score];
+    text.textContent = pwd.value ? `Password strength: ${labels[score]}` : "Use 8+ characters with a mix of letters, numbers & symbols";
+  });
+}
 
-// -----------------------------
-// Copy Username
-// -----------------------------
+function getPasswordScore(pwd) {
+  let score = 0;
+  if (pwd.length >= 8) score++;
+  if (/[a-z]/.test(pwd) && /[A-Z]/.test(pwd)) score++;
+  if (/\d/.test(pwd)) score++;
+  if (/[^A-Za-z0-9]/.test(pwd)) score++;
+  return Math.min(score, 4);
+}
 
-username.addEventListener("copy",()=>{
+function validateNewPassword() {
+  const newPwd = document.getElementById("newPassword").value;
+  const confirmPwd = document.getElementById("confirmNewPassword").value;
+  document.getElementById("err-newPassword").textContent = "";
+  document.getElementById("err-confirmNewPassword").textContent = "";
+  let valid = true;
 
-    showToast("Username copied.","info");
+  if (!newPwd || newPwd.length < 8 || !/[a-zA-Z]/.test(newPwd) || !/\d/.test(newPwd)) {
+    document.getElementById("err-newPassword").textContent = "Password must be 8+ characters with letters & numbers";
+    valid = false;
+  }
+  if (newPwd === MOCK_ACCOUNT.password) {
+    document.getElementById("err-newPassword").textContent = "New password must be different from your current password";
+    valid = false;
+  }
+  if (!confirmPwd || confirmPwd !== newPwd) {
+    document.getElementById("err-confirmNewPassword").textContent = "Passwords do not match";
+    valid = false;
+  }
+  return valid;
+}
 
-});
+// ===== SOCIAL LOGIN =====
+function bindSocialButtons() {
+  document.getElementById("googleBtn").addEventListener("click", () => {
+    showToast("Redirecting to Google Sign-In...", "info");
+  });
+  document.getElementById("appleBtn").addEventListener("click", () => {
+    showToast("Redirecting to Apple Sign-In...", "info");
+  });
+}
 
-// -----------------------------
-// Disable Context Menu on Password
-// -----------------------------
-
-password.addEventListener("contextmenu",(e)=>{
-
+// ===== NAV =====
+function bindNavButtons() {
+  document.getElementById("registerBtn").addEventListener("click", () => {
+    showToast("Redirecting to registration...", "info");
+  });
+  document.getElementById("registerNowLink").addEventListener("click", (e) => {
     e.preventDefault();
-
-});
-
-// -----------------------------
-// Focus First Empty Field
-// -----------------------------
-
-window.addEventListener("load",()=>{
-
-    if(username.value===""){
-
-        username.focus();
-
-    }
-
-    else{
-
-        password.focus();
-
-    }
-
-});
-
-// -----------------------------
-// Accessibility
-// -----------------------------
-
-username.setAttribute("autocomplete","username");
-
-password.setAttribute("autocomplete","current-password");
-
-username.setAttribute("spellcheck","false");
-
-password.setAttribute("spellcheck","false");
-
-// -----------------------------
-// Console Welcome
-// -----------------------------
-
-console.log("%cCuronex Login Portal",
-"font-size:20px;color:#0A4FD9;font-weight:bold;");
-
-console.log("JavaScript Loaded Successfully");
-
-// -----------------------------
-// ESC Clears Password
-// -----------------------------
-
-document.addEventListener("keydown",(e)=>{
-
-    if(e.key==="Escape"){
-
-        password.value="";
-
-    }
-
-});
-
-// -----------------------------
-// Warn if Cookies Disabled
-// -----------------------------
-
-if(!navigator.cookieEnabled){
-
-    showToast(
-
-        "Cookies are disabled in your browser.",
-
-        "warning"
-
-    );
-
+    showToast("Redirecting to registration...", "info");
+  });
 }
 
-// -----------------------------
-// Welcome Message
-// -----------------------------
-
-setTimeout(()=>{
-
-    showToast(
-
-        "Welcome to Curonex.",
-
-        "info"
-
-    );
-
-},700);
-
-// -----------------------------
-// Final Initialization
-// -----------------------------
-
-updateButton();
-
-setLoading(false);
-
-isSubmitting=false;
-
-});
-// ===== END OF FILE =====
+// ===== TOAST =====
+function showToast(message, type = "info") {
+  const container = document.getElementById("toastContainer");
+  const toast = document.createElement("div");
+  toast.className = `toast ${type}`;
+  toast.textContent = message;
+  container.appendChild(toast);
+  setTimeout(() => {
+    toast.style.opacity = "0";
+    toast.style.transition = "opacity 0.3s";
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
+}
