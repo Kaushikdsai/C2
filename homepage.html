@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Curonex - Your Health, Our Priority</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="homepage.css">
+</head>
+<body>
+
+<div class="navbar" id="navbar">
+  <div class="nav-logo">
+    <div class="nav-logo-icon">➕</div>
+    <div class="nav-logo-text">
+      <h1>Curonex</h1>
+      <p>Affordable Healthcare Access</p>
+    </div>
+  </div>
+  <div class="nav-links" id="navLinks">
+    <a href="#home" class="nav-link">Home</a>
+    <a href="#features" class="nav-link">Features</a>
+    <a href="#about" class="nav-link">About</a>
+    <a href="#contact" class="nav-link">Contact</a>
+  </div>
+  <div class="nav-actions">
+    <button class="login-btn" id="loginBtn">Login</button>
+    <button class="register-btn" id="registerBtn">Register</button>
+  </div>
+  <button class="mobile-toggle" id="mobileToggle">☰</button>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <h1>Curonex</h1>
+  <p class="hero-tagline">Your health, our priority.</p>
+  <p class="hero-desc">Find doctors, book appointments, and access healthcare services with ease — all in one platform built for affordable, reliable care.</p>
+  <button class="cta-btn" id="getStartedBtn">Get Started →</button>
+  <div class="scroll-indicator" id="scrollIndicator">⌄</div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section" id="features">
+  <p class="section-label">What We Offer</p>
+  <h2 class="section-title">Our Features</h2>
+  <div class="features-grid">
+    <div class="feature-card" data-feature="appointment">
+      <div class="feature-icon">📅</div>
+      <h3>Book Appointment</h3>
+      <p>Schedule appointments with top doctors and specialists easily.</p>
+    </div>
+    <div class="feature-card" data-feature="doctors">
+      <div class="feature-icon">👨‍⚕️</div>
+      <h3>Find Doctors</h3>
+      <p>Search and connect with the right doctors for your needs.</p>
+    </div>
+    <div class="feature-card" data-feature="camps">
+      <div class="feature-icon">⛺</div>
+      <h3>Medical Camps</h3>
+      <p>Discover upcoming medical camps in your area.</p>
+    </div>
+    <div class="feature-card" data-feature="reports">
+      <div class="feature-icon">📄</div>
+      <h3>View Reports</h3>
+      <p>Access and view your health reports securely.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section" id="about">
+  <div class="about-visual">
+    <div class="about-visual-icon">➕</div>
+  </div>
+  <div class="about-content">
+    <p class="section-label">About Us</p>
+    <h2 class="section-title">About Curonex</h2>
+    <p>Curonex is a healthcare platform committed to making quality healthcare accessible to everyone. We connect patients with trusted doctors, promote health awareness through medical camps, and provide a seamless experience for managing appointments and reports.</p>
+    <p>Our mission is to simplify healthcare and put your well-being first.</p>
+    <div class="about-stats">
+      <div class="about-stat"><h3>50K+</h3><p>Happy Patients</p></div>
+      <div class="about-stat"><h3>1,200+</h3><p>Verified Doctors</p></div>
+      <div class="about-stat"><h3>340+</h3><p>Partner Hospitals</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="contact-info">
+    <p class="section-label">Contact</p>
+    <h2 class="section-title">Get in Touch</h2>
+    <div class="contact-item"><span>📍</span><div><strong>Address</strong><p>Curonex HQ, Banjara Hills, Hyderabad</p></div></div>
+    <div class="contact-item"><span>📞</span><div><strong>Phone</strong><p>+91 98765 43210</p></div></div>
+    <div class="contact-item"><span>📞</span><div><strong>Alternate Number</strong><p>+91 87654 32145</p></div></div>
+    <div class="contact-item"><span>✉️</span><div><strong>Email</strong><p>support@curonex.com</p></div></div>
+  </div>
+
+  <form class="contact-form" id="contactForm">
+    <div class="form-row">
+      <div class="form-field">
+        <input type="text" id="cfName" placeholder="Your Name">
+        <span class="error-msg" id="err-cfName"></span>
+      </div>
+      <div class="form-field">
+        <input type="email" id="cfEmail" placeholder="Email Address">
+        <span class="error-msg" id="err-cfEmail"></span>
+      </div>
+    </div>
+    <div class="form-field">
+      <input type="tel" id="cfPhone" placeholder="Phone Number" maxlength="10">
+      <span class="error-msg" id="err-cfPhone"></span>
+    </div>
+    <div class="form-field">
+      <textarea id="cfMessage" rows="4" placeholder="Message"></textarea>
+      <span class="error-msg" id="err-cfMessage"></span>
+    </div>
+    <button type="submit" class="btn-primary" id="sendMessageBtn">Send Message</button>
+  </form>
+</section>
+
+<footer class="footer">
+  <p>© 2026 Curonex Healthcare System. All rights reserved.</p>
+  <div class="footer-links">
+    <a href="#">Privacy Policy</a>
+    <a href="#">Terms of Service</a>
+    <a href="#">Support</a>
+  </div>
+</footer>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="homepage.js"></script>
+</body>
+</html>

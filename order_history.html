@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Curonex - Order History</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="order_history.css">
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">
+    <div class="logo-icon">➕</div>
+    <div class="logo-text">
+      <h1>Curonex</h1>
+      <p>Affordable Healthcare Access</p>
+    </div>
+  </div>
+  <div class="nav">
+    <a href="#">About</a>
+    <a href="#">Contact</a>
+    <div class="bell-wrap">
+      <span class="bell-icon">🔔</span>
+      <span class="badge">2</span>
+    </div>
+    <div class="user-wrap" id="userWrap">
+      <div class="avatar">👤</div>
+      <span class="username">Gowri Manogari</span>
+      <span class="chevron" id="chevronIcon">▾</span>
+      <div class="dropdown-menu" id="dropdownMenu">
+        <a href="#" class="dropdown-item">👤 My Profile</a>
+        <a href="#" class="dropdown-item">⚙️ Settings</a>
+        <div class="dropdown-divider"></div>
+        <a href="#" class="dropdown-item logout" id="logoutBtn">🚪 Logout</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="layout">
+  <div class="sidebar">
+    <div class="side-item" data-page="appointments"><span class="side-icon">📅</span> Appointment Scheduling</div>
+    <div class="side-item active" data-page="pharmacy"><span class="side-icon">💊</span> Pharmacy</div>
+    <div class="side-item" data-page="emergency"><span class="side-icon">🚑</span> Emergency Service</div>
+    <div class="side-item" data-page="critical"><span class="side-icon">🩺</span> Critical Resource Service</div>
+    <div class="side-item" data-page="camp"><span class="side-icon">⛺</span> Medical Camp</div>
+  </div>
+
+  <div class="main">
+    <div class="main-top">
+      <div>
+        <h2>Order History</h2>
+        <p class="main-sub">Track all your medicine orders and their delivery status.</p>
+      </div>
+    </div>
+
+    <div class="controls-row">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="orderSearch" placeholder="Search by patient name or medicine...">
+      </div>
+      <div class="filter-chips" id="filterChips"></div>
+    </div>
+
+    <div id="orderList"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="confirmOverlay">
+  <div class="modal-box">
+    <div class="modal-icon">⚠️</div>
+    <h3>Cancel this order?</h3>
+    <p>This action cannot be undone. Your order will be cancelled and any payment will be refunded within 3-5 business days.</p>
+    <div class="modal-actions-row">
+      <button class="btn-secondary" id="confirmCancelBtn">Keep Order</button>
+      <button class="btn-primary" id="confirmOkBtn">Yes, Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="order_history.js"></script>
+</body>
+</html>
