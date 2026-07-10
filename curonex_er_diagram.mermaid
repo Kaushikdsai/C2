@@ -1,0 +1,208 @@
+%% =========================================================
+%% CURONEX — Entity Relationship Diagram (Crow's Foot style)
+%% Transcribed directly from handwritten schema notes.
+%% Relationship cardinalities are inferred from the *_id (FK)
+%% naming convention used throughout the notes.
+%% =========================================================
+
+erDiagram
+
+    CREDENTIALS ||--o| DETAILS : "extends"
+    DETAILS ||--o| USER : "extends"
+    CREDENTIALS ||--o| HOSPITALS : "extends"
+    CREDENTIALS ||--o| PHARMACY : "extends"
+    CREDENTIALS ||--o| DELIVERY_PARTNER : "extends"
+    CREDENTIALS ||--o| DOCTOR : "extends"
+
+    HOSPITALS ||--o{ PHARMACY : "may associate"
+    HOSPITALS ||--o{ DOCTOR : "employs"
+    HOSPITALS ||--o{ AMBULANCE : "may own"
+    HOSPITALS ||--o{ APPOINTMENT : "hosts"
+    HOSPITALS ||--o{ PRESCRIPTION : "issues"
+    HOSPITALS ||--o{ CAMP : "organizes"
+    HOSPITALS ||--o{ RESOURCE : "stocks"
+    HOSPITALS ||--o{ TRANSFER_TABLE : "sends (source)"
+    HOSPITALS ||--o{ TRANSFER_TABLE : "receives (destination)"
+
+    DOCTOR ||--o{ APPOINTMENT : "attends"
+    DOCTOR ||--o{ PRESCRIPTION : "writes"
+    DOCTOR ||--o{ CAMP : "conducts"
+
+    USER ||--o{ APPOINTMENT : "books"
+    USER ||--o{ PRESCRIPTION : "receives"
+    USER ||--o{ ORDER : "places"
+
+    PHARMACY ||--o{ ORDER : "fulfills"
+    DELIVERY_PARTNER ||--o{ ORDER : "delivers"
+
+    ORDER ||--o{ ITEMS : "contains"
+    MEDICINE ||--o{ ITEMS : "listed in"
+
+    CAMP ||--o{ CAMP_PATIENT_FORM : "registers"
+
+    RESOURCE ||--o{ TRANSFER_TABLE : "transferred as"
+
+    CREDENTIALS {
+        int id PK
+        varchar password "hashed"
+        varchar username
+    }
+
+    DETAILS {
+        int id PK "FK -> CREDENTIALS.id"
+        varchar Name
+        varchar email
+        varchar phone
+        varchar address
+        varchar pincode
+        varchar city
+        varchar state
+    }
+
+    USER {
+        int id PK "FK -> DETAILS.id"
+        varchar gender
+        date DOB
+        varchar Blood_group
+    }
+
+    HOSPITALS {
+        int id PK "FK -> CREDENTIALS.id"
+        varchar licence_no
+        varchar geo_address
+        int total_icu_beds
+        int available_icu_beds
+        text_array facilities
+        int total_doctors
+    }
+
+    PHARMACY {
+        int id PK "FK -> CREDENTIALS.id"
+        varchar licence_no
+        varchar geo_address
+        enum status
+        int hosp_id FK "nullable"
+    }
+
+    DELIVERY_PARTNER {
+        int id PK "FK -> CREDENTIALS.id"
+        varchar vehicle_number
+        enum status
+        varchar licence_no
+    }
+
+    DOCTOR {
+        int id FK "FK -> CREDENTIALS.id"
+        varchar license_no
+        int experience
+        varchar specialization
+        int hosp_id FK
+        time_array start_time
+        time_array end_time
+        jsonb timings
+    }
+
+    MEDICINE {
+        int medicine_id PK
+        varchar name
+    }
+
+    ORDER {
+        int order_id PK
+        int pharmacy_id FK
+        int delivery_partner_id FK
+        int user_id FK
+        enum status
+        int item_id FK
+        timestamp order_datetime
+    }
+
+    ITEMS {
+        int item_id PK
+        int order_id FK
+        int medicine_id FK
+    }
+
+    PRESCRIPTION {
+        int prescription_id PK
+        int user_id FK
+        int hospital_id FK
+        jsonb medicines "item:qty"
+        timestamp prescription_datetime
+        int doctor_id FK
+    }
+
+    APPOINTMENT {
+        int appointment_id PK
+        int doctor_id FK
+        int patient_id FK
+        timestamp appointment_datetime
+        enum status
+        int hospital_id FK
+    }
+
+    AMBULANCE {
+        int ambulance_id PK
+        varchar vehicle_number
+        varchar license
+        enum status
+        int hosp_id FK "nullable"
+    }
+
+    CAMP {
+        int camp_id PK
+        varchar camp_name
+        varchar city
+        varchar specialization
+        date camp_date
+        text_array timing
+        int available_slots
+        int hospital_id FK
+        int doctor_id FK
+        text address
+        text camp_description
+        text camp_banner
+    }
+
+    CAMP_PATIENT_FORM {
+        int patient_id PK "unique"
+        int camp_id FK
+        varchar name
+        varchar phone
+        int age
+        varchar gender
+        varchar city
+        text address
+        text reason_for_taking_camp
+        time preferred_time
+        varchar alternate_contact
+        text existing_condition
+        text chief_complaint
+        text description
+        text diagnosis
+        text_array medical_reports
+        enum follow_up "Yes/No"
+    }
+
+    RESOURCE {
+        int resource_id PK
+        varchar name
+        enum category
+        varchar units
+        varchar supplier
+        date manufacturing_date
+        date exp_date
+        int quantity
+        enum availability_status
+        int hospital_id FK
+    }
+
+    TRANSFER_TABLE {
+        int transfer_id PK
+        int resource_id FK
+        int source_hospital_id FK
+        int destination_hospital_id FK
+        int quantity
+        date transfer_date
+        enum transfer_status
+    }
